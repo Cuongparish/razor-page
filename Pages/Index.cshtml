@@ -1,0 +1,102 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    .table-container {
+        max-height: 500px;
+        overflow-y: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .product-table th,
+    .product-table td {
+        padding: 12px 15px;
+        text-align: center;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .product-table thead {
+        position: sticky;
+        top: 0;
+        background-color: #4a5568;
+        color: white;
+        z-index: 1;
+    }
+
+    .product-table tbody tr:nth-child(even) {
+        background-color: #f7fafc;
+    }
+
+    .product-table tbody tr:hover {
+        background-color: #edf2f7;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .btn-warning {
+        background-color: #ed8936;
+    }
+
+    .btn-danger {
+        background-color: #e53e3e;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<h2 class="text-2xl font-bold mb-4">Product List</h2>
+
+<div class="table-container">
+    <table class="product-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>$@product.Price</td>
+                    <td>
+                        <a asp-page="UpdateProduct" asp-route-id="@product.Id" class="btn btn-warning">Edit</a>
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@product.Id" style="display:inline;">
+                            <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

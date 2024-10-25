@@ -1,0 +1,163 @@
+@page
+@model razor.Pages.SignUp
+@{
+    ViewData["Title"] = "SignUp";
+}
+
+<style>
+    body {
+        background-color: #1a202c;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 400px;
+        padding: 2rem;
+        background-color: #2d3748;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    h1 {
+        color: #fff;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: #4a5568;
+        border: 1px solid #718096;
+        border-radius: 4px;
+        font-size: 1rem;
+        color: #fff;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #63b3ed;
+        box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.3);
+    }
+
+    .text-danger {
+        color: #fc8181;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #4299e1;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #3182ce;
+    }
+
+    .social-login {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .social-login p {
+        color: #a0aec0;
+        margin-bottom: 1rem;
+    }
+
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .social-icon {
+        color: #a0aec0;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .social-icon:hover {
+        color: #ffff;
+    }
+</style>
+
+<div class="login-container">
+    <h1>SignUp </h1>
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <input class="form-control" name="User.Username" placeholder="Email" />
+            <span asp-validation-for="User.Username" class="text-danger"></span>
+        </div>
+
+        <div class="form-group" style="position: relative;">
+            <input class="form-control" id="password" type="password" name="User.PasswordHash" placeholder="Password" />
+            <span asp-validation-for="User.PasswordHash" class="text-danger"></span>
+            <i class="fas fa-eye" id="togglePassword"
+                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #a0aec0;"></i>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+    </form>
+    <div class="social-login">
+        <p>Fast Login With Your Favourite Social Profile</p>
+        <div class="social-icons">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon"><i class="fab fa-google-plus-g"></i></a>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+
+@section Scripts {
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            // Thay đổi màu sắc của biểu tượng toggle
+            if (type === 'text') {
+                this.style.color = '#D4AF37'; // Màu vàng khi mật khẩu hiển thị
+            } else {
+                this.style.color = '#a0aec0'; // Màu xám nhạt khi mật khẩu ẩn
+            }
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

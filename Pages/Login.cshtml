@@ -1,0 +1,269 @@
+@page
+@model razor.Pages.Login
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    body {
+        background-color: #1a202c;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .login-container {
+        width: 100%;
+        max-width: 400px;
+        padding: 2rem;
+        background-color: #2d3748;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    h1 {
+        color: #fff;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: #4a5568;
+        border: 1px solid #718096;
+        border-radius: 4px;
+        font-size: 1rem;
+        color: #fff;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #63b3ed;
+        box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.3);
+    }
+
+    .text-danger {
+        color: #fc8181;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 4px;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #4299e1;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #3182ce;
+    }
+
+    .social-login {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .social-login p {
+        color: #a0aec0;
+        margin-bottom: 1rem;
+    }
+
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .social-icon {
+        color: #a0aec0;
+        font-size: 1.5rem;
+        transition: color 0.3s ease;
+    }
+
+    .social-icon:hover {
+        color: #ffff;
+    }
+
+    @* .modal {
+        display: none;
+        /* Ẩn theo mặc định */
+        position: fixed;
+        z-index: 1;
+        /* Nằm trên cùng */
+        left: 0;
+        top: 0;
+        width: 50%;
+        /* Chiều rộng đầy đủ */
+        height: 100%;
+        /* Chiều cao đầy đủ */
+        overflow: auto;
+        /* Cho phép cuộn nếu cần */
+        background-color: rgb(0, 0, 0);
+        /* Màu nền */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Đen với độ mờ */
+        padding-top: 60px;
+    } *@
+
+    .modal {
+        display: none; /* Ẩn theo mặc định */
+        position: fixed; /* Vị trí cố định */
+        z-index: 1; /* Nằm trên cùng */
+        left: 50%; /* Đặt ở giữa theo chiều ngang */
+        top: 75%; /* Đặt ở giữa theo chiều dọc */
+        width: 1500px; /* Chiều rộng của modal, có thể điều chỉnh */
+        height: 1000px; /* Chiều cao tự động */
+        overflow: auto; /* Cho phép cuộn nếu cần */
+        background-color: rgb(0, 0, 0); /* Màu nền */
+        background-color: rgba(0, 0, 0, 0.4); /* Đen với độ mờ */
+        padding: 20px; /* Khoảng cách nội dung bên trong modal */
+        transform: translate(-50%, -50%); /* Đẩy modal lên trên và sang trái để căn giữa */
+    }
+
+    .modal-content {
+        background-color: #2d3748;
+        margin: 5% auto;
+        /* 15% từ trên xuống và ở giữa */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 350px;
+        /* Có thể nhiều hơn hoặc ít hơn, tùy thuộc vào kích thước màn hình */
+    }
+
+    .close {
+        color: #aaa;
+        float: left;
+        margin-left: 300px;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<div class="login-container">
+    <h1>LOGIN </h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        @* <div class="text-danger">
+            @TempData["ErrorMessage"].ToString()
+        </div> *@
+        var errorMessage = TempData["ErrorMessage"] as string; // Chuyển đổi an toàn
+        if (!string.IsNullOrEmpty(errorMessage)) // Kiểm tra không rỗng
+        {
+            <div class="text-danger">
+                @errorMessage
+            </div>
+        }
+    }
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <input class="form-control" name="User.Username" placeholder="Email" />
+            <span asp-validation-for="User.Username" class="text-danger"></span>
+        </div>
+
+        <div class="form-group" style="position: relative;">
+            <input class="form-control" id="password" type="password" name="User.PasswordHash" placeholder="Password" />
+            <span asp-validation-for="User.PasswordHash" class="text-danger"></span>
+            <i class="fas fa-eye" id="togglePassword"
+                style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #a0aec0;"></i>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+    </form>
+    <div class="social-login">
+        <p>Fast Login With Your Favourite Social Profile</p>
+        <div class="social-icons">
+            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="/signin-google" class="social-icon"><i class="fab fa-google-plus-g"></i></a>
+            <a href="#" class="social-icon" id="toggleGuidance"><i class="fas fa-lightbulb"></i></a>
+        </div>
+    </div>
+</div>
+
+<div id="guidanceModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Guide Line</h2>
+        <p>Nhập sai mật khẩu 5 lần sẽ bị khóa</p>
+        <p>Tài khoản đăng nhập chỉ có thể duy trì 30p</p>
+        <p>Tài khoản</p>
+        <ul>
+            <li>Username : cuong</li>
+            <li>Password : 123456</li>
+        </ul>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+
+@section Scripts {
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            // Thay đổi màu sắc của biểu tượng toggle
+            this.style.color = type === 'text' ? '#D4AF37' : '#a0aec0';
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Hiện modal khi nhấn vào biểu tượng bóng đèn
+        const modal = document.getElementById("guidanceModal");
+        const btn = document.getElementById("toggleGuidance");
+        const span = document.getElementById("closeModal");
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // Đóng modal khi người dùng nhấn vào <span> (×)
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Đóng modal khi người dùng nhấn ở bất kỳ đâu ngoài modal
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
