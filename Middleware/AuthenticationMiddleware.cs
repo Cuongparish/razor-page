@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http.Extensions; // Để sử dụng GetString
 using System.IdentityModel.Tokens.Jwt; // JwtSecurityTokenHandler
 using Microsoft.IdentityModel.Tokens;   // SymmetricSecurityKey, TokenValidationParameters
 using System.Text;                      // Encoding
+using System;
 
 namespace razor.Middleware
 {
@@ -68,14 +69,14 @@ namespace razor.Middleware
             }
 
             // Nếu chưa đăng nhập và không phải trang Login hoặc SignUp, chuyển hướng đến trang Login
-            if (!isLoggedIn && context.Request.Path != "/Login" && context.Request.Path != "/SignUp" && context.Request.Path != "/signin-google")
+            if (!isLoggedIn && context.Request.Path != "/Login" && context.Request.Path != "/SignUp")
             {
                 context.Response.Redirect("/Login");
                 return;
             }
 
             // Nếu đã đăng nhập và đang cố truy cập trang Login hoặc SignUp, chuyển hướng về trang chính
-            if (isLoggedIn && (context.Request.Path == "/Login" || context.Request.Path == "/SignUp" || context.Request.Path == "/signin-google"))
+            if (isLoggedIn && (context.Request.Path == "/Login" || context.Request.Path == "/SignUp"))
             {
                 context.Response.Redirect("/Index"); // Thay "/Index" bằng đường dẫn trang chính của bạn
                 return;

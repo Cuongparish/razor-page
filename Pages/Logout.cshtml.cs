@@ -15,6 +15,7 @@ namespace razor.Pages
         public IActionResult OnPostAsync()
         {
             // Xóa token trong cookies
+            // HttpContext.Session.Remove("JWToken");
             HttpContext.Response.Cookies.Delete("JWToken");
 
             // Chuyển hướng về trang đăng nhập

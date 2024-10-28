@@ -37,7 +37,10 @@ namespace razor.Pages
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == User.Username);
-
+            if (user == null)
+            {
+                _logger.LogWarning("User not found or account is locked.");
+            }
             if (user == null || user.IsLocked)
             {
                 TempData["ErrorMessage"] = "Tài khoản không tồn tại hoặc đã bị khóa.";

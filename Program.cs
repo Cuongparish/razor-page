@@ -71,12 +71,6 @@ builder.Services.AddAuthentication(options =>
 {
     options.Cookie.HttpOnly = true;
     options.LoginPath = "/Login"; // Chuyển hướng đến trang đăng nhập khi không xác thực
-})
-.AddGoogle(options =>
-{
-    options.ClientId = "123";  // Thay thế bằng Google Client ID của bạn
-    options.ClientSecret = "";  // Thay thế bằng Google Client Secret của bạn
-    options.CallbackPath = "/signin-google";  // Đường dẫn trả về khi đăng nhập thành công
 });
 
 // Cấu hình DbContext
