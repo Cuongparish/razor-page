@@ -10,7 +10,7 @@
     }
   },
   "ConnectionStrings": {
-    "DefaultConnection": "YourDevelopmentConnectionStringHere
+    "DefaultConnection": "YourDevelopmentConnectionStringHere"
      },
   
   "ApplicationInsights": {
